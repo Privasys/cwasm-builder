@@ -47,9 +47,9 @@ jobs:
       - name: Checkout app repository
         run: |
           git clone --depth 1 --branch "${{ inputs.commit }}" \
-            "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ inputs.repo_url }}.git" app 2>/dev/null \
+            "https://x-access-token:${{ secrets.GH_PAT }}@github.com/${{ inputs.repo_url }}.git" app 2>/dev/null \
           || {
-            git clone "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ inputs.repo_url }}.git" app
+            git clone "https://x-access-token:${{ secrets.GH_PAT }}@github.com/${{ inputs.repo_url }}.git" app
             cd app && git checkout "${{ inputs.commit }}" && cd ..
           }
 
@@ -61,7 +61,7 @@ jobs:
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          password: ${{ secrets.GH_PAT }}
 
       - name: Build and push container image
         id: build
